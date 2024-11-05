@@ -36,7 +36,12 @@ Follow these steps to create your own GitHub-integrated assistant:
 - Create a GitHub App with the necessary permissions to read repositories, pull requests, and commits.
 
 ### 3. Add Credentials to Your Custom GPT
-- In your GPT setup, add the GitHub App credentials (Client ID and Secret) to enable secure API access.
+- In your GPT setup add actions and choose OAuth
+![OAuth](/2.png)
+-   add the GitHub App credentials (Client ID and Secret) to enable secure API access.
+  ![OAuth](/1.png)
+- Add schema from schema.json
+  ![OAuth](/3.png)
 
 ### 4. Configure with Provided Files
 - Use `prompt.md` for your assistant’s conversational prompt, setting expectations and guidance for responses.
