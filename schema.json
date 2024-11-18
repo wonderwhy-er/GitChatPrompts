@@ -12,148 +12,156 @@
     }
   ],
   "paths": {
-    "/search/repositories": {
-      "get": {
-        "operationId": "searchRepositories",
-        "summary": "Search Repositories by name, creation date, and stars",
-        "description": "Search repositories on GitHub using a combination of repository name, creation date, and star count.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": true,
-            "description": "The search query combining repository name, creation date, and star count. Example: 'stars:>1000 created:>2024-01-01 name:my-repo'.",
-            "schema": {
-              "type": "string"
+      "/search/repositories": {
+        "get": {
+          "operationId": "searchRepositories",
+          "summary": "Search Repositories by name, creation date, and stars",
+          "description": "Search repositories on GitHub using a combination of repository name, creation date, and star count.",
+          "parameters": [
+            {
+              "name": "q",
+              "in": "query",
+              "required": true,
+              "description": "The search query combining repository name, creation date, and star count. Example: 'stars:>1000 created:>2024-01-01 name:my-repo'.",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "required": false,
+              "description": "The field to sort the results by. Possible values: 'stars', 'forks', 'updated'. Default is 'best match'.",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "stars",
+                  "forks",
+                  "updated"
+                ]
+              }
+            },
+            {
+              "name": "order",
+              "in": "query",
+              "required": false,
+              "description": "The order in which to sort the results. Possible values: 'asc', 'desc'. Default is 'desc'.",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "asc",
+                  "desc"
+                ]
+              }
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "description": "The number of results per page (max 100). Default is 30.",
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 30
+              }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "description": "Page number of the results to fetch. Default is 1.",
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              }
             }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "description": "The field to sort the results by. Possible values: 'stars', 'forks', 'updated'. Default is 'best match'.",
-            "schema": {
-              "type": "string",
-              "enum": ["stars", "forks", "updated"]
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "required": false,
-            "description": "The order in which to sort the results. Possible values: 'asc', 'desc'. Default is 'desc'.",
-            "schema": {
-              "type": "string",
-              "enum": ["asc", "desc"]
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "description": "The number of results per page (max 100). Default is 30.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 30
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "description": "Page number of the results to fetch. Default is 1.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response with a list of repositories matching the search criteria.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "total_count": {
-                      "type": "integer",
-                      "description": "The total number of repositories that match the search query."
-                    },
-                    "incomplete_results": {
-                      "type": "boolean",
-                      "description": "Whether the search results are incomplete."
-                    },
-                    "items": {
-                      "type": "array",
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response with a list of repositories matching the search criteria.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "total_count": {
+                        "type": "integer",
+                        "description": "The total number of repositories that match the search query."
+                      },
+                      "incomplete_results": {
+                        "type": "boolean",
+                        "description": "Whether the search results are incomplete."
+                      },
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "description": "The unique identifier for the repository."
-                          },
-                          "name": {
-                            "type": "string",
-                            "description": "The name of the repository."
-                          },
-                          "full_name": {
-                            "type": "string",
-                            "description": "The full name of the repository including owner."
-                          },
-                          "owner": {
-                            "type": "object",
-                            "properties": {
-                              "login": {
-                                "type": "string",
-                                "description": "The username of the owner."
-                              },
-                              "id": {
-                                "type": "integer",
-                                "description": "The unique identifier of the owner."
-                              },
-                              "avatar_url": {
-                                "type": "string",
-                                "description": "The URL to the owner's avatar image."
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "The unique identifier for the repository."
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "The name of the repository."
+                            },
+                            "full_name": {
+                              "type": "string",
+                              "description": "The full name of the repository including owner."
+                            },
+                            "owner": {
+                              "type": "object",
+                              "properties": {
+                                "login": {
+                                  "type": "string",
+                                  "description": "The username of the owner."
+                                },
+                                "id": {
+                                  "type": "integer",
+                                  "description": "The unique identifier of the owner."
+                                },
+                                "avatar_url": {
+                                  "type": "string",
+                                  "description": "The URL to the owner's avatar image."
+                                }
                               }
+                            },
+                            "html_url": {
+                              "type": "string",
+                              "description": "The URL to the repository on GitHub."
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "A short description of the repository."
+                            },
+                            "fork": {
+                              "type": "boolean",
+                              "description": "Whether the repository is a fork of another repository."
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "The date and time the repository was created."
+                            },
+                            "updated_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "The date and time the repository was last updated."
+                            },
+                            "stargazers_count": {
+                              "type": "integer",
+                              "description": "The number of stars the repository has received."
+                            },
+                            "language": {
+                              "type": "string",
+                              "description": "The primary programming language of the repository."
+                            },
+                            "forks_count": {
+                              "type": "integer",
+                              "description": "The number of forks of the repository."
                             }
-                          },
-                          "html_url": {
-                            "type": "string",
-                            "description": "The URL to the repository on GitHub."
-                          },
-                          "description": {
-                            "type": "string",
-                            "description": "A short description of the repository."
-                          },
-                          "fork": {
-                            "type": "boolean",
-                            "description": "Whether the repository is a fork of another repository."
-                          },
-                          "created_at": {
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "The date and time the repository was created."
-                          },
-                          "updated_at": {
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "The date and time the repository was last updated."
-                          },
-                          "stargazers_count": {
-                            "type": "integer",
-                            "description": "The number of stars the repository has received."
-                          },
-                          "language": {
-                            "type": "string",
-                            "description": "The primary programming language of the repository."
-                          },
-                          "forks_count": {
-                            "type": "integer",
-                            "description": "The number of forks of the repository."
                           }
                         }
                       }
@@ -161,113 +169,407 @@
                   }
                 }
               }
+            },
+            "400": {
+              "description": "Invalid search query or parameters."
+            },
+            "403": {
+              "description": "Forbidden. The request is rate limited or the user does not have permission."
             }
-          },
-          "400": {
-            "description": "Invalid search query or parameters."
-          },
-          "403": {
-            "description": "Forbidden. The request is rate limited or the user does not have permission."
           }
         }
-      }
-    },
-    "/repos/{owner}/{repo}": {
-      "get": {
-        "operationId": "getRepo",
-        "summary": "Retrieve Repository Information",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+      },
+      "/repos/{owner}/{repo}": {
+        "get": {
+          "operationId": "getRepo",
+          "summary": "Retrieve Repository Information",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      "/repos/{owner}/{repo}/pulls": {
+        "get": {
+          "operationId": "getPullRequests",
+          "summary": "List Pull Requests",
+          "description": "Retrieve a list of pull requests for a repository. Supports pagination to limit the number of results.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "state",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "closed",
+                  "all"
+                ],
+                "default": "open"
+              },
+              "description": "The state of the pull requests to return. Can be 'open', 'closed', or 'all'."
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 30
+              },
+              "description": "Number of results to return per page (maximum 100)."
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              },
+              "description": "Page number of the results to fetch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of pull requests.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "The ID of the pull request."
+                        },
+                        "number": {
+                          "type": "integer",
+                          "description": "The pull request number."
+                        },
+                        "state": {
+                          "type": "string",
+                          "description": "The state of the pull request (e.g., 'open', 'closed')."
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "The title of the pull request."
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "login": {
+                              "type": "string",
+                              "description": "The username of the pull request author."
+                            },
+                            "id": {
+                              "type": "integer",
+                              "description": "The ID of the user."
+                            }
+                          }
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "When the pull request was created."
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "When the pull request was last updated."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Repository not found."
             }
           },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ]
+        }
+      },
+      "/repos/{owner}/{repo}/contents/{path}": {
+        "get": {
+          "operationId": "getFileContent",
+          "summary": "Get file content from a repository",
+          "description": "Fetch the content of a file in the repository. The content is returned in Base64 encoding.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "path",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The file path in the repository."
+            },
+            {
+              "name": "ref",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the branch (e.g., 'main', 'master'). Defaults to the repository's default branch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "File content retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the file."
+                      },
+                      "path": {
+                        "type": "string",
+                        "description": "The file path in the repository."
+                      },
+                      "sha": {
+                        "type": "string",
+                        "description": "The SHA hash of the file."
+                      },
+                      "size": {
+                        "type": "integer",
+                        "description": "The size of the file in bytes."
+                      },
+                      "content": {
+                        "type": "string",
+                        "description": "The Base64-encoded content of the file.",
+                        "example": "SGVsbG8gd29ybGQhCg=="
+                      },
+                      "encoding": {
+                        "type": "string",
+                        "description": "The encoding of the file content (e.g., 'base64')."
+                      },
+                      "download_url": {
+                        "type": "string",
+                        "description": "The direct URL to download the file."
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "The API URL for this file."
+                          },
+                          "git": {
+                            "type": "string",
+                            "description": "The Git URL for this file."
+                          },
+                          "html": {
+                            "type": "string",
+                            "description": "The HTML URL for this file."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "File not found."
+            }
+          },
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ]
+        }
+      },
+      "/repos/{owner}/{repo}/commits/{sha}": {
+        "get": {
+          "operationId": "getCommitPatch",
+          "summary": "Get the patch (diff) for a specific commit",
+          "description": "Retrieve the patch (diff) for a specific commit in a repository.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "sha",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The SHA of the commit for which the patch is being retrieved."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The patch (diff) of the commit.",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "string",
+                    "description": "The patch (diff) content in plain text."
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Commit not found."
+            }
+          },
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ],
+          "headers": {
+            "Accept": {
+              "description": "Set to application/vnd.github.v3.patch to retrieve the patch (diff) format.",
+              "schema": {
+                "type": "string",
+                "example": "application/vnd.github.v3.patch"
+              }
             }
           }
-        ]
-      }
-    },
-    "/repos/{owner}/{repo}/pulls": {
-      "get": {
-        "operationId": "getPullRequests",
-        "summary": "List Pull Requests",
-        "description": "Retrieve a list of pull requests for a repository. Supports pagination to limit the number of results.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+        }
+      },
+      "/repos/{owner}/{repo}/pulls/{pull_number}": {
+        "get": {
+          "operationId": "getPullRequestInfo",
+          "summary": "Get pull request information",
+          "description": "Retrieve general information about a specific pull request in a repository, such as title, description, status, and more.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
             },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
             },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "state",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": ["open", "closed", "all"],
-              "default": "open"
-            },
-            "description": "The state of the pull requests to return. Can be 'open', 'closed', or 'all'."
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 30
-            },
-            "description": "Number of results to return per page (maximum 100)."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            },
-            "description": "Page number of the results to fetch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of pull requests.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
+            {
+              "name": "pull_number",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "The number of the pull request for which the information is being retrieved."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Information about the pull request.",
+              "content": {
+                "application/json": {
+                  "schema": {
                     "type": "object",
                     "properties": {
                       "id": {
                         "type": "integer",
                         "description": "The ID of the pull request."
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "The API URL for the pull request."
+                      },
+                      "html_url": {
+                        "type": "string",
+                        "description": "The URL of the pull request in the GitHub UI."
                       },
                       "number": {
                         "type": "integer",
@@ -281,18 +583,9 @@
                         "type": "string",
                         "description": "The title of the pull request."
                       },
-                      "user": {
-                        "type": "object",
-                        "properties": {
-                          "login": {
-                            "type": "string",
-                            "description": "The username of the pull request author."
-                          },
-                          "id": {
-                            "type": "integer",
-                            "description": "The ID of the user."
-                          }
-                        }
+                      "body": {
+                        "type": "string",
+                        "description": "The body description of the pull request."
                       },
                       "created_at": {
                         "type": "string",
@@ -303,978 +596,707 @@
                         "type": "string",
                         "format": "date-time",
                         "description": "When the pull request was last updated."
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Repository not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ]
-      }
-    },
-
-    "/repos/{owner}/{repo}/contents/{path}": {
-      "get": {
-        "operationId": "getFileContent",
-        "summary": "Get file content from a repository",
-        "description": "Fetch the content of a file in the repository. The content is returned in Base64 encoding.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The file path in the repository."
-          },
-          {
-            "name": "ref",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the branch (e.g., 'main', 'master'). Defaults to the repository's default branch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "File content retrieved successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the file."
-                    },
-                    "path": {
-                      "type": "string",
-                      "description": "The file path in the repository."
-                    },
-                    "sha": {
-                      "type": "string",
-                      "description": "The SHA hash of the file."
-                    },
-                    "size": {
-                      "type": "integer",
-                      "description": "The size of the file in bytes."
-                    },
-                    "content": {
-                      "type": "string",
-                      "description": "The Base64-encoded content of the file.",
-                      "example": "SGVsbG8gd29ybGQhCg=="
-                    },
-                    "encoding": {
-                      "type": "string",
-                      "description": "The encoding of the file content (e.g., 'base64')."
-                    },
-                    "download_url": {
-                      "type": "string",
-                      "description": "The direct URL to download the file."
-                    },
-                    "_links": {
-                      "type": "object",
-                      "properties": {
-                        "self": {
-                          "type": "string",
-                          "description": "The API URL for this file."
-                        },
-                        "git": {
-                          "type": "string",
-                          "description": "The Git URL for this file."
-                        },
-                        "html": {
-                          "type": "string",
-                          "description": "The HTML URL for this file."
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "File not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ]
-      }
-    },
-
-
-    "/repos/{owner}/{repo}/commits/{sha}": {
-      "get": {
-        "operationId": "getCommitPatch",
-        "summary": "Get the patch (diff) for a specific commit",
-        "description": "Retrieve the patch (diff) for a specific commit in a repository.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "sha",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The SHA of the commit for which the patch is being retrieved."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The patch (diff) of the commit.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "description": "The patch (diff) content in plain text."
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Commit not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ],
-        "headers": {
-          "Accept": {
-            "description": "Set to application/vnd.github.v3.patch to retrieve the patch (diff) format.",
-            "schema": {
-              "type": "string",
-              "example": "application/vnd.github.v3.patch"
-            }
-          }
-        }
-      }
-    },
-    "/repos/{owner}/{repo}/pulls/{pull_number}": {
-      "get": {
-        "operationId": "getPullRequestInfo",
-        "summary": "Get pull request information",
-        "description": "Retrieve general information about a specific pull request in a repository, such as title, description, status, and more.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "pull_number",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "The number of the pull request for which the information is being retrieved."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Information about the pull request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "description": "The ID of the pull request."
-                    },
-                    "url": {
-                      "type": "string",
-                      "description": "The API URL for the pull request."
-                    },
-                    "html_url": {
-                      "type": "string",
-                      "description": "The URL of the pull request in the GitHub UI."
-                    },
-                    "number": {
-                      "type": "integer",
-                      "description": "The pull request number."
-                    },
-                    "state": {
-                      "type": "string",
-                      "description": "The state of the pull request (e.g., 'open', 'closed')."
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "The title of the pull request."
-                    },
-                    "body": {
-                      "type": "string",
-                      "description": "The body description of the pull request."
-                    },
-                    "created_at": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "When the pull request was created."
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "When the pull request was last updated."
-                    },
-                    "closed_at": {
-                      "type": "string",
-                      "format": "date-time",
-                      "nullable": true,
-                      "description": "When the pull request was closed (if applicable)."
-                    },
-                    "merged_at": {
-                      "type": "string",
-                      "format": "date-time",
-                      "nullable": true,
-                      "description": "When the pull request was merged (if applicable)."
-                    },
-                    "merge_commit_sha": {
-                      "type": "string",
-                      "nullable": true,
-                      "description": "The SHA of the commit that merged the pull request."
-                    },
-                    "user": {
-                      "type": "object",
-                      "properties": {
-                        "login": {
-                          "type": "string",
-                          "description": "The username of the pull request author."
-                        },
-                        "id": {
-                          "type": "integer",
-                          "description": "The ID of the user."
-                        },
-                        "avatar_url": {
-                          "type": "string",
-                          "description": "The avatar URL of the user."
-                        },
-                        "html_url": {
-                          "type": "string",
-                          "description": "The GitHub profile URL of the user."
-                        }
-                      }
-                    },
-                    "head": {
-                      "type": "object",
-                      "properties": {
-                        "ref": {
-                          "type": "string",
-                          "description": "The name of the head branch (the feature branch)."
-                        },
-                        "sha": {
-                          "type": "string",
-                          "description": "The SHA of the head branch."
-                        },
-                        "repo": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer",
-                              "description": "The ID of the repository where the head branch is located."
-                            },
-                            "name": {
-                              "type": "string",
-                              "description": "The name of the repository."
-                            },
-                            "html_url": {
-                              "type": "string",
-                              "description": "The URL of the repository."
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "base": {
-                      "type": "object",
-                      "properties": {
-                        "ref": {
-                          "type": "string",
-                          "description": "The name of the base branch (the target branch)."
-                        },
-                        "sha": {
-                          "type": "string",
-                          "description": "The SHA of the base branch."
-                        },
-                        "repo": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer",
-                              "description": "The ID of the repository where the base branch is located."
-                            },
-                            "name": {
-                              "type": "string",
-                              "description": "The name of the repository."
-                            },
-                            "html_url": {
-                              "type": "string",
-                              "description": "The URL of the repository."
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "merged": {
-                      "type": "boolean",
-                      "description": "Indicates whether the pull request has been merged."
-                    },
-                    "mergeable": {
-                      "type": "boolean",
-                      "nullable": true,
-                      "description": "Indicates whether the pull request can be merged."
-                    },
-                    "rebaseable": {
-                      "type": "boolean",
-                      "nullable": true,
-                      "description": "Indicates whether the pull request can be rebased."
-                    },
-                    "draft": {
-                      "type": "boolean",
-                      "description": "Indicates whether the pull request is a draft."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Pull request not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ]
-      }
-    },
-
-    "/repos/{owner}/{repo}/compare/{base}...{head}": {
-      "get": {
-        "operationId": "compareCommits",
-        "summary": "Compare two commits, branches, or tags",
-        "description": "Retrieve the diff between two commits, branches, or tags, showing the changes introduced. Supports pagination for commits to limit the response size.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "base",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The base branch or commit (e.g., 'main')."
-          },
-          {
-            "name": "head",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The head branch or commit (e.g., the feature branch)."
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 30
-            },
-            "description": "Limit the number of commits to return per page (maximum 100)."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            },
-            "description": "Page number of the results to fetch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The diff between the two branches or commits.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "files": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "filename": {
-                            "type": "string",
-                            "description": "The name of the file."
-                          },
-                          "patch": {
-                            "type": "string",
-                            "description": "The diff for the file in patch format."
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "One or both branches not found."
-          }
-        }
-      }
-    },
-    "/repos/{owner}/{repo}/pulls/{pull_number}/commits": {
-      "get": {
-        "operationId": "getPullRequestCommits",
-        "summary": "Get commits for a pull request",
-        "description": "Retrieve the list of commits associated with a specific pull request.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "pull_number",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "The number of the pull request."
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 30
-            },
-            "description": "Number of commits to return per page (maximum 100)."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            },
-            "description": "Page number of the results to fetch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of commits associated with the pull request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "sha": {
-                        "type": "string",
-                        "description": "The SHA of the commit."
                       },
-                      "commit": {
+                      "closed_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true,
+                        "description": "When the pull request was closed (if applicable)."
+                      },
+                      "merged_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true,
+                        "description": "When the pull request was merged (if applicable)."
+                      },
+                      "merge_commit_sha": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The SHA of the commit that merged the pull request."
+                      },
+                      "user": {
                         "type": "object",
                         "properties": {
-                          "author": {
+                          "login": {
+                            "type": "string",
+                            "description": "The username of the pull request author."
+                          },
+                          "id": {
+                            "type": "integer",
+                            "description": "The ID of the user."
+                          },
+                          "avatar_url": {
+                            "type": "string",
+                            "description": "The avatar URL of the user."
+                          },
+                          "html_url": {
+                            "type": "string",
+                            "description": "The GitHub profile URL of the user."
+                          }
+                        }
+                      },
+                      "head": {
+                        "type": "object",
+                        "properties": {
+                          "ref": {
+                            "type": "string",
+                            "description": "The name of the head branch (the feature branch)."
+                          },
+                          "sha": {
+                            "type": "string",
+                            "description": "The SHA of the head branch."
+                          },
+                          "repo": {
                             "type": "object",
                             "properties": {
+                              "id": {
+                                "type": "integer",
+                                "description": "The ID of the repository where the head branch is located."
+                              },
                               "name": {
-                                "type": "string"
-                              },
-                              "email": {
-                                "type": "string"
-                              },
-                              "date": {
                                 "type": "string",
-                                "format": "date-time"
+                                "description": "The name of the repository."
+                              },
+                              "html_url": {
+                                "type": "string",
+                                "description": "The URL of the repository."
                               }
                             }
-                          },
-                          "message": {
-                            "type": "string",
-                            "description": "The commit message."
                           }
                         }
                       },
-                      "url": {
-                        "type": "string",
-                        "description": "The API URL for the commit."
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Pull request not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ]
-      }
-    },
-
-    "/repos/{owner}/{repo}/pulls/{pull_number}/files": {
-      "get": {
-        "operationId": "getPullRequestChangedFiles",
-        "summary": "Get the list of files changed in a pull request",
-        "description": "Retrieve the list of files that were changed, added, or deleted as part of a pull request.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "pull_number",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "The number of the pull request."
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 30
-            },
-            "description": "The number of results per page (maximum 100)."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            },
-            "description": "Page number of the results to fetch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of changed files in the pull request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "filename": {
-                        "type": "string",
-                        "description": "The path of the file."
-                      },
-                      "status": {
-                        "type": "string",
-                        "description": "The status of the file (e.g., 'modified', 'added', 'deleted')."
-                      },
-                      "additions": {
-                        "type": "integer",
-                        "description": "Number of lines added."
-                      },
-                      "deletions": {
-                        "type": "integer",
-                        "description": "Number of lines deleted."
-                      },
-                      "changes": {
-                        "type": "integer",
-                        "description": "Total number of changes (additions + deletions)."
-                      },
-                      "raw_url": {
-                        "type": "string",
-                        "description": "The URL to view the raw file content."
-                      },
-                      "blob_url": {
-                        "type": "string",
-                        "description": "The URL to view the file in GitHub's UI."
-                      },
-                      "patch": {
-                        "type": "string",
-                        "description": "The diff (patch) for the file (optional)."
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Pull request not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ]
-      }
-    },
-
-
-    "/repos/{owner}/{repo}/contents": {
-      "get": {
-        "operationId": "getRepoFileList",
-        "summary": "Get the list of files in a repository directory",
-        "description": "Retrieve the list of files and directories in a specified directory of a repository. If no path is provided, it returns the contents of the root directory.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The GitHub username or organization that owns the repository."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The name of the repository."
-          },
-          {
-            "name": "path",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The directory path in the repository. Defaults to the root directory."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of files and directories in the specified repository path.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "description": "The name of the file or directory."
-                      },
-                      "path": {
-                        "type": "string",
-                        "description": "The file or directory path in the repository."
-                      },
-                      "sha": {
-                        "type": "string",
-                        "description": "The SHA hash of the file or directory."
-                      },
-                      "size": {
-                        "type": "integer",
-                        "description": "The size of the file (if applicable)."
-                      },
-                      "type": {
-                        "type": "string",
-                        "description": "The type of content, either 'file' or 'dir'."
-                      },
-                      "download_url": {
-                        "type": "string",
-                        "description": "The URL to download the file."
-                      },
-                      "_links": {
+                      "base": {
                         "type": "object",
                         "properties": {
-                          "self": {
+                          "ref": {
                             "type": "string",
-                            "description": "The API URL for this content."
+                            "description": "The name of the base branch (the target branch)."
                           },
-                          "git": {
+                          "sha": {
                             "type": "string",
-                            "description": "The Git URL for this content."
+                            "description": "The SHA of the base branch."
                           },
-                          "html": {
-                            "type": "string",
-                            "description": "The HTML URL for this content."
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-
-          "404": {
-            "description": "Not Found. The specified path or repository does not exist."
-          }
-        },
-        "security": [
-          {
-            "oauth2": ["repo"]
-          }
-        ]
-      }
-    },
-
-    "/search/code": {
-      "get": {
-        "operationId": "searchCode",
-        "summary": "Search for code in a repository",
-        "description": "Search for code in the specified repository based on search terms. The results will include fragments of code that match the search query.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The search query, which should include the search term, and optionally specify a repository with `repo:{owner}/{repo}`. Example: `function repo:wonderwhy-er/ChatGPTServerCommander`."
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": ["indexed"],
-              "default": "indexed"
-            },
-            "description": "Sort the search results. Currently, the only supported value is 'indexed'."
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": ["desc", "asc"],
-              "default": "desc"
-            },
-            "description": "The order of the results. Either 'desc' for descending or 'asc' for ascending."
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 30,
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "The number of search results to return per page (maximum 100)."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 1,
-              "minimum": 1
-            },
-            "description": "Page number of the results to fetch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Search results returned successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "total_count": {
-                      "type": "integer",
-                      "description": "The total number of matching code results."
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string",
-                            "description": "The name of the file that contains the matched code."
-                          },
-                          "path": {
-                            "type": "string",
-                            "description": "The file path where the match was found."
-                          },
-                          "repository": {
+                          "repo": {
                             "type": "object",
                             "properties": {
-                              "full_name": {
+                              "id": {
+                                "type": "integer",
+                                "description": "The ID of the repository where the base branch is located."
+                              },
+                              "name": {
                                 "type": "string",
-                                "description": "The full name of the repository (e.g., 'wonderwhy-er/ChatGPTServerCommander')."
+                                "description": "The name of the repository."
+                              },
+                              "html_url": {
+                                "type": "string",
+                                "description": "The URL of the repository."
                               }
                             }
-                          },
-                          "text_matches": {
-                            "type": "array",
-                            "items": {
+                          }
+                        }
+                      },
+                      "merged": {
+                        "type": "boolean",
+                        "description": "Indicates whether the pull request has been merged."
+                      },
+                      "mergeable": {
+                        "type": "boolean",
+                        "nullable": true,
+                        "description": "Indicates whether the pull request can be merged."
+                      },
+                      "rebaseable": {
+                        "type": "boolean",
+                        "nullable": true,
+                        "description": "Indicates whether the pull request can be rebased."
+                      },
+                      "draft": {
+                        "type": "boolean",
+                        "description": "Indicates whether the pull request is a draft."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Pull request not found."
+            }
+          },
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ]
+        }
+      },
+      "/repos/{owner}/{repo}/compare/{base}...{head}": {
+        "get": {
+          "operationId": "compareCommits",
+          "summary": "Compare two commits, branches, or tags",
+          "description": "Retrieve the diff between two commits, branches, or tags, showing the changes introduced. Supports pagination for commits to limit the response size.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "base",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The base branch or commit (e.g., 'main')."
+            },
+            {
+              "name": "head",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The head branch or commit (e.g., the feature branch)."
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 30
+              },
+              "description": "Limit the number of commits to return per page (maximum 100)."
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              },
+              "description": "Page number of the results to fetch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The diff between the two branches or commits.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "files": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "filename": {
+                              "type": "string",
+                              "description": "The name of the file."
+                            },
+                            "patch": {
+                              "type": "string",
+                              "description": "The diff for the file in patch format."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "One or both branches not found."
+            }
+          }
+        }
+      },
+      "/repos/{owner}/{repo}/pulls/{pull_number}/commits": {
+        "get": {
+          "operationId": "getPullRequestCommits",
+          "summary": "Get commits for a pull request",
+          "description": "Retrieve the list of commits associated with a specific pull request.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "pull_number",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "The number of the pull request."
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 30
+              },
+              "description": "Number of commits to return per page (maximum 100)."
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              },
+              "description": "Page number of the results to fetch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of commits associated with the pull request.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sha": {
+                          "type": "string",
+                          "description": "The SHA of the commit."
+                        },
+                        "commit": {
+                          "type": "object",
+                          "properties": {
+                            "author": {
                               "type": "object",
                               "properties": {
-                                "fragment": {
-                                  "type": "string",
-                                  "description": "A snippet of code where the match was found."
+                                "name": {
+                                  "type": "string"
                                 },
-                                "matches": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "text": {
-                                        "type": "string",
-                                        "description": "The matched text within the code."
-                                      },
-                                      "indices": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "integer"
+                                "email": {
+                                  "type": "string"
+                                },
+                                "date": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                }
+                              }
+                            },
+                            "message": {
+                              "type": "string",
+                              "description": "The commit message."
+                            }
+                          }
+                        },
+                        "url": {
+                          "type": "string",
+                          "description": "The API URL for the commit."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Pull request not found."
+            }
+          },
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ]
+        }
+      },
+      "/repos/{owner}/{repo}/pulls/{pull_number}/files": {
+        "get": {
+          "operationId": "getPullRequestChangedFiles",
+          "summary": "Get the list of files changed in a pull request",
+          "description": "Retrieve the list of files that were changed, added, or deleted as part of a pull request.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "pull_number",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "The number of the pull request."
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 30
+              },
+              "description": "The number of results per page (maximum 100)."
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              },
+              "description": "Page number of the results to fetch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of changed files in the pull request.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "filename": {
+                          "type": "string",
+                          "description": "The path of the file."
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "The status of the file (e.g., 'modified', 'added', 'deleted')."
+                        },
+                        "additions": {
+                          "type": "integer",
+                          "description": "Number of lines added."
+                        },
+                        "deletions": {
+                          "type": "integer",
+                          "description": "Number of lines deleted."
+                        },
+                        "changes": {
+                          "type": "integer",
+                          "description": "Total number of changes (additions + deletions)."
+                        },
+                        "raw_url": {
+                          "type": "string",
+                          "description": "The URL to view the raw file content."
+                        },
+                        "blob_url": {
+                          "type": "string",
+                          "description": "The URL to view the file in GitHub's UI."
+                        },
+                        "patch": {
+                          "type": "string",
+                          "description": "The diff (patch) for the file (optional)."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Pull request not found."
+            }
+          },
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ]
+        }
+      },
+      "/repos/{owner}/{repo}/contents": {
+        "get": {
+          "operationId": "getRepoFileList",
+          "summary": "Get the list of files in a repository directory",
+          "description": "Retrieve the list of files and directories in a specified directory of a repository. If no path is provided, it returns the contents of the root directory.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The GitHub username or organization that owns the repository."
+            },
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The name of the repository."
+            },
+            {
+              "name": "path",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The directory path in the repository. Defaults to the root directory."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of files and directories in the specified repository path.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the file or directory."
+                        },
+                        "path": {
+                          "type": "string",
+                          "description": "The file or directory path in the repository."
+                        },
+                        "sha": {
+                          "type": "string",
+                          "description": "The SHA hash of the file or directory."
+                        },
+                        "size": {
+                          "type": "integer",
+                          "description": "The size of the file (if applicable)."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "The type of content, either 'file' or 'dir'."
+                        },
+                        "download_url": {
+                          "type": "string",
+                          "description": "The URL to download the file."
+                        },
+                        "_links": {
+                          "type": "object",
+                          "properties": {
+                            "self": {
+                              "type": "string",
+                              "description": "The API URL for this content."
+                            },
+                            "git": {
+                              "type": "string",
+                              "description": "The Git URL for this content."
+                            },
+                            "html": {
+                              "type": "string",
+                              "description": "The HTML URL for this content."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found. The specified path or repository does not exist."
+            }
+          },
+          "security": [
+            {
+              "oauth2": [
+                "repo"
+              ]
+            }
+          ]
+        }
+      },
+      "/search/code": {
+        "get": {
+          "operationId": "searchCode",
+          "summary": "Search for code in a repository",
+          "description": "Search for code in the specified repository based on search terms. The results will include fragments of code that match the search query.",
+          "parameters": [
+            {
+              "name": "q",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The search query, which should include the search term, and optionally specify a repository with `repo:{owner}/{repo}`. Example: `function repo:wonderwhy-er/ChatGPTServerCommander`."
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "indexed"
+                ],
+                "default": "indexed"
+              },
+              "description": "Sort the search results. Currently, the only supported value is 'indexed'."
+            },
+            {
+              "name": "order",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "desc",
+                  "asc"
+                ],
+                "default": "desc"
+              },
+              "description": "The order of the results. Either 'desc' for descending or 'asc' for ascending."
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "default": 30,
+                "minimum": 1,
+                "maximum": 100
+              },
+              "description": "The number of search results to return per page (maximum 100)."
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "default": 1,
+                "minimum": 1
+              },
+              "description": "Page number of the results to fetch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Search results returned successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "total_count": {
+                        "type": "integer",
+                        "description": "The total number of matching code results."
+                      },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "The name of the file that contains the matched code."
+                            },
+                            "path": {
+                              "type": "string",
+                              "description": "The file path where the match was found."
+                            },
+                            "repository": {
+                              "type": "object",
+                              "properties": {
+                                "full_name": {
+                                  "type": "string",
+                                  "description": "The full name of the repository (e.g., 'wonderwhy-er/ChatGPTServerCommander')."
+                                }
+                              }
+                            },
+                            "text_matches": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "fragment": {
+                                    "type": "string",
+                                    "description": "A snippet of code where the match was found."
+                                  },
+                                  "matches": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "text": {
+                                          "type": "string",
+                                          "description": "The matched text within the code."
                                         },
-                                        "description": "The start and end indices of the match within the fragment."
+                                        "indices": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "integer"
+                                          },
+                                          "description": "The start and end indices of the match within the fragment."
+                                        }
                                       }
                                     }
                                   }
@@ -1288,136 +1310,135 @@
                   }
                 }
               }
+            },
+            "404": {
+              "description": "No code matches found."
             }
-          },
-          "404": {
-            "description": "No code matches found."
           }
         }
-      }
-    },
-
-    "/repos/{owner}/{repo}/commits": {
-      "get": {
-        "operationId": "listCommits",
-        "summary": "List commits in a repository",
-        "description": "Retrieve a paginated list of commits from a repository. You can filter results by date and limit the number of commits per page.",
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+      },
+      "/repos/{owner}/{repo}/commits": {
+        "get": {
+          "operationId": "listCommits",
+          "summary": "List commits in a repository",
+          "description": "Retrieve a paginated list of commits from a repository. You can filter results by date and limit the number of commits per page.",
+          "parameters": [
+            {
+              "name": "owner",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The repository owner's username."
             },
-            "description": "The repository owner's username."
-          },
-          {
-            "name": "repo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            {
+              "name": "repo",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The repository name."
             },
-            "description": "The repository name."
-          },
-          {
-            "name": "sha",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
+            {
+              "name": "sha",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "SHA or branch to start listing commits from."
             },
-            "description": "SHA or branch to start listing commits from."
-          },
-          {
-            "name": "path",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
+            {
+              "name": "path",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Only commits containing this file path will be returned."
             },
-            "description": "Only commits containing this file path will be returned."
-          },
-          {
-            "name": "since",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
+            {
+              "name": "since",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "description": "Commits made after this date will be included."
             },
-            "description": "Commits made after this date will be included."
-          },
-          {
-            "name": "until",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
+            {
+              "name": "until",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "description": "Commits made before this date will be included."
             },
-            "description": "Commits made before this date will be included."
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 1
+            {
+              "name": "per_page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "default": 1
+              },
+              "description": "Number of results per page (default is 1 to limit to a single commit per request)."
             },
-            "description": "Number of results per page (default is 1 to limit to a single commit per request)."
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            },
-            "description": "Page number of the results to fetch."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of commits matching the query.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "sha": {
-                        "type": "string",
-                        "description": "The commit SHA."
-                      },
-                      "commit": {
-                        "type": "object",
-                        "properties": {
-                          "author": {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "email": {
-                                "type": "string"
-                              },
-                              "date": {
-                                "type": "string",
-                                "format": "date-time"
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              },
+              "description": "Page number of the results to fetch."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of commits matching the query.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sha": {
+                          "type": "string",
+                          "description": "The commit SHA."
+                        },
+                        "commit": {
+                          "type": "object",
+                          "properties": {
+                            "author": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "email": {
+                                  "type": "string"
+                                },
+                                "date": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                }
                               }
+                            },
+                            "message": {
+                              "type": "string",
+                              "description": "The commit message."
                             }
-                          },
-                          "message": {
-                            "type": "string",
-                            "description": "The commit message."
                           }
                         }
                       }
@@ -1425,16 +1446,15 @@
                   }
                 }
               }
+            },
+            "400": {
+              "description": "Bad request. The query parameters are incorrect."
+            },
+            "403": {
+              "description": "Forbidden. The user doesn't have access to the repository or has hit rate limits."
             }
-          },
-          "400": {
-            "description": "Bad request. The query parameters are incorrect."
-          },
-          "403": {
-            "description": "Forbidden. The user doesn't have access to the repository or has hit rate limits."
           }
         }
       }
     }
   }
-}
